@@ -1,0 +1,60 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+products = [
+    {"name": "كتاب إلكتروني", "price": "10 USDT"},
+    {"name": "قالب موقع", "price": "25 USDT"},
+    {"name": "ملفات تصميم", "price": "15 USDT"}
+]
+
+html = """
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>متجري الرقمي</title>
+<style>
+body{font-family:Arial;background:#111;color:white;text-align:center}
+.card{
+background:#222;
+padding:20px;
+margin:20px auto;
+width:300px;
+border-radius:10px;
+}
+button{
+background:#00c853;
+color:white;
+border:none;
+padding:10px 20px;
+cursor:pointer;
+border-radius:5px;
+}
+</style>
+</head>
+<body>
+
+<h1>متجر المنتجات الرقمية</h1>
+
+{% for p in products %}
+<div class="card">
+<h2>{{ p.name }}</h2>
+<p>السعر: {{ p.price }}</p>
+<button>شراء الآن</button>
+</div>
+{% endfor %}
+
+<hr>
+<h3>الدفع عبر USDT (TRC20)</h3>
+<p>TKQi96EGu6paCRLhVtRBn11DEUheLsy48s</p>
+
+</body>
+</html>
+"""
+
+@app.route('/')
+def home():
+    return render_template_string(html, products=products)
+
+app.run(host="0.0.0.0", port=5000)
